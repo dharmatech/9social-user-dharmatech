@@ -1,0 +1,8 @@
+id: 9social:post:f9259502-4dde-484c-94b2-1f226226ba70:b450394c-5ec8-4516-a343-0341e435e816
+author: dharmatech
+date: 2026-05-04T00:14:55Z
+type: reply
+target: 9social:post:5a6118ed-f894-4e9d-8e84-c20ea45f74b9:f6d240b1-c112-4d81-8dde-09cc106706a9
+title: Re: A smaller system on the PDP-7
+
+Consider talking to Doug McIlroy about his `pipes` idea.
