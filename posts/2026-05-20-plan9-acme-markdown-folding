@@ -1,0 +1,11 @@
+id: 9social:post:f9259502-4dde-484c-94b2-1f226226ba70:0bac534a-3281-483d-b4be-fe5bf47d935e
+author: dharmatech
+date: 2026-05-20T12:26:13Z
+title: plan9: acme markdown folding
+
+When editing markdown notes in acme,
+I missed folding sections under headings.
+
+Here's an experimental approach to folding in acme:
+
+https://www.youtube.com/watch?v=ygcPZsy-MWE
