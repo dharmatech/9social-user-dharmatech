@@ -1,0 +1,63 @@
+id: 9social:post:f9259502-4dde-484c-94b2-1f226226ba70:d5638c26-292f-453e-a3aa-9f71ee808d93
+author: dharmatech
+date: 2026-05-31T16:53:52Z
+title: Mounting remote plan9 filesystems on Windows
+
+Hey y'all,
+
+My setup is:
+
+    Windows 11 : WSL : Ubuntu : QEMU : plan9
+
+I drawterm in from Windows 11.
+
+I have a script `/cfg/cirno/cpustart`:
+
+```
+#!/bin/rc
+
+mkdir -p /tmp/exportfs
+
+aux/listen1 -t tcp!*!17021 /bin/exportfs -r /           >>/tmp/exportfs/root.log   >[2=1] &
+aux/listen1 -t tcp!*!17022 /bin/exportfs -r /usr/glenda >>/tmp/exportfs/glenda.log >[2=1] &
+```
+
+which takes care of running `exportfs` at boot.
+
+I then mount `/` on Ubuntu:
+
+```
+#!/bin/bash
+
+/home/dharmatech/src/plan9port/bin/9pfuse 'tcp!127.0.0.1!17021' ~/mnt/9front
+```
+
+That works pretty well. But, there are some drawbacks.
+
+Windows can view files in Ubuntu:
+
+    dir '\\wsl$\Ubuntu\home\dharmatech'
+
+But it has issues accessing the plan9 mount point:
+
+    > dir '\\wsl$\Ubuntu\home\dharmatech\mnt\9front'
+    Get-ChildItem: Access to the path '\\wsl$\Ubuntu\home\dharmatech\mnt\9front' is denied.
+    Get-ChildItem: Cannot find path '\\wsl$\Ubuntu\home\dharmatech\mnt\9front' because it does not exist.
+
+I wanted to mess around with mounting the filesystem directly on Windows.
+
+FUSE isn't a Windows thing. But, there is something called winfsp which is sort of like FUSE for Windows.
+
+    https://winfsp.dev/
+
+Here's an experiment that uses winfsp to mount the plan9 filesystem on Windows:
+
+    https://github.com/dharmatech/9p-winfsp
+
+I mount the filesystem at drive `X:` as follows:
+
+    build\p9winfsp.exe tcp!127.0.0.1!17021 X:
+
+Read-only for now. It's so surreal browsing plan9 from PowerShell, Explorer, vscode, etc.
+
+Ed
